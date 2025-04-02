@@ -1,0 +1,157 @@
+PREFIX :    <http://example.org/football#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+# 1 - REQUETE AVEC OPTIONAL
+
+# SELECT ?playerName ?clubName ?position ?marketValue
+# WHERE {
+#   ?player rdf:type :Player ;
+#           :name ?playerName ;
+#           :playsFor ?club .
+#   ?club :name ?clubName .
+#   OPTIONAL { ?player :position ?position . }
+#   OPTIONAL { ?player :marketValue ?marketValue . }
+# }
+# LIMIT 50
+
+# 2 - REQUETE AVEC GRAPH NOMMÉ
+# SELECT ?playerName ?clubName ?competitionName
+# FROM NAMED <../ttl/players.ttl>
+# FROM NAMED <../ttl/clubs.ttl>
+# FROM NAMED <../ttl/competitions.ttl>
+# WHERE {
+#   GRAPH <../ttl/players.ttl> {
+#     ?player rdf:type :Player ;
+#             :name ?playerName ;
+#             :playsFor ?club .
+#   }
+#   GRAPH <../ttl/clubs.ttl> {
+#     ?club :name ?clubName ;
+#           :participatesIn ?competition .
+#   }
+#   GRAPH <../ttl/competitions.ttl> {
+#     ?competition :name ?competitionName .
+#   }
+# }
+# LIMIT 20
+
+# 3 - REQUETE AVEC AGGREGATION
+# SELECT ?teamName (SUM(?goals) AS ?totalGoals)
+# WHERE {
+#   {
+#     ?game :homeTeam ?team ;
+#           :homeGoals ?goals .
+#   }
+#   UNION
+#   {
+#     ?game :awayTeam ?team ;
+#           :awayGoals ?goals .
+#   }
+#   ?team :name ?teamName .
+# }
+# GROUP BY ?teamName
+# ORDER BY DESC(?totalGoals)
+
+# 3 - REQUETE AVEC CHEMIN
+# SELECT ?playerName ?clubName ?competitionName
+# WHERE {
+#   ?player rdf:type :Player ;
+#           :name ?playerName ;
+#           :playsFor/:participatesIn ?competition .
+          
+#   ?competition :name ?competitionName .
+  
+#   ?player :playsFor ?club .
+#   ?club :name ?clubName .
+# }
+
+# 4 - REQUETE AVEC MINUS
+# SELECT DISTINCT ?playerName
+# WHERE {
+#   ?player rdf:type :Player ;
+#           :name ?playerName ;
+#           :playsFor ?club .
+  
+#   MINUS {
+#     ?club :participatesIn <http://example.org/competition/SerieA> .
+#   }
+# }
+
+# 5 - REQUETE AVEC FILTER NOT EXISTS
+# SELECT ?playerName ?birthDate ?marketValue
+# WHERE {
+#   ?player rdf:type :Player ;
+#           :name ?playerName ;
+#           :dateOfBirth ?birthDate ;
+#           :position "Attack" ;
+#           :marketValue ?marketValue .
+
+#   FILTER NOT EXISTS {
+#     ?player :dateOfBirth ?birthDate .
+#     FILTER (YEAR(NOW()) - YEAR(?birthDate) >= 23)
+#   }
+#   FILTER NOT EXISTS {
+#     ?player :position ?otherPosition .
+#     FILTER (?otherPosition != "Attack")
+#   }
+# }
+# ORDER BY ?birthDate
+
+
+# 6
+# SELECT ?competition ?competitionName
+# WHERE {
+#     ?competition :name ?competitionName ;
+#                  :confederation "europa" .
+# }
+
+
+# 7
+# SELECT ?game ?homeTeamName ?awayTeamName ?date
+# WHERE {
+#     ?game rdf:type :Game ;
+#           :stadium "Spotify Camp Nou" ;
+#           :homeTeam ?homeTeam ;
+#           :awayTeam ?awayTeam ;
+#           :date ?date .
+#     ?homeTeam :name ?homeTeamName .
+#     ?awayTeam :name ?awayTeamName .
+# }
+
+
+# 8
+# SELECT ?playerName ?fromClubName ?toClubName ?date ?tranferfee
+# WHERE {
+#     ?transfer rdf:type :Transfer ;
+#               :player ?player ;
+#               :fromClub ?fromClub ;
+#               :toClub ?toClub ;
+#               :transferDate ?date .
+#     ?player :name ?playerName .
+#     ?fromClub :name ?fromClubName .
+#     ?toClub :name ?toClubName .
+#     ?transfer :transferFee ?tranferfee .
+#     FILTER (?tranferfee > 50000000)
+# }
+# LIMIT 20
+
+
+# SELECT ?label ?stadiumName ?dbpediaDescription ?location
+# WHERE {
+#   ?club rdf:type :Club .
+#   ?club :name "Arsenal Football Club" ;
+#         :stadiumName ?stadiumName .
+
+#   SERVICE <http://dbpedia.org/sparql> {
+#     ?dbpediaStadium rdfs:label ?label ;
+#                     dbo:abstract ?dbpediaDescription ;
+#                     dbo:location ?location .
+#     FILTER(LANG(?dbpediaDescription) = "en")
+#     FILTER(STR(?label) = "Emirates Stadium") 
+#   }
+# }

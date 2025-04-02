@@ -1,0 +1,18 @@
+PREFIX : <http://example.org/football#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+  ?player rdf:type :Player ;
+          :name ?name ;
+          :dateOfBirth ?formattedDate ;
+          :playsFor ?club ;
+          :position ?position ;
+          :marketValue ?formattedMarketValue .
+}
+WHERE {
+  BIND (URI(CONCAT("http://example.org/player/", ?player_id)) AS ?player)
+  BIND (URI(CONCAT("http://example.org/club/", ?current_club_id)) AS ?club)
+  BIND (xsd:date(SUBSTR(?date_of_birth, 1, 10)) AS ?formattedDate)
+  BIND (xsd:integer(?market_value_in_eur) AS ?formattedMarketValue)
+}

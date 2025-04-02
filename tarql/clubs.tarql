@@ -1,0 +1,27 @@
+PREFIX : <http://example.org/football#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+  ?club rdf:type :Club ;
+        :name ?name ;
+        :participatesIn ?competition ;
+        :squadSize ?squadSize ;
+        :averageAge ?averageAge ;
+        :foreignersNumber ?foreignersNumber ;
+        :foreignersPercentage ?foreignersPercentage ;
+        :nationalTeamPlayers ?nationalTeamPlayers ;
+        :stadiumName ?stadiumName ;
+        :stadiumSeats ?stadiumSeats .
+}
+WHERE {
+  BIND (URI(CONCAT("http://example.org/club/", ?club_id)) AS ?club)
+  BIND (IF(?domestic_competition_id != "", URI(CONCAT("http://example.org/competition/", ?domestic_competition_id)), "") AS ?competition)
+  BIND (xsd:integer(?squad_size) AS ?squadSize)
+  BIND (xsd:decimal(?average_age) AS ?averageAge)
+  BIND (xsd:integer(?foreigners_number) AS ?foreignersNumber)
+  BIND (xsd:decimal(?foreigners_percentage) AS ?foreignersPercentage)
+  BIND (xsd:integer(?national_team_players) AS ?nationalTeamPlayers)
+  BIND (?stadium_name AS ?stadiumName)
+  BIND (xsd:integer(?stadium_seats) AS ?stadiumSeats)
+}

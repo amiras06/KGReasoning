@@ -1,0 +1,216 @@
+@prefix : <http://example.org/football#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:Organization a rdfs:Class.
+:Person a rdfs:Class.
+
+:Club a rdfs:Class ;
+      rdfs:subClassOf :Organization .
+
+:Competition a rdfs:Class ;
+            rdfs:subClassOf :Organization.
+
+:Country a rdfs:Class .
+
+:Game a rdfs:Class .
+
+:Player a rdfs:Class ;
+      rdfs:subClassOf :Person.
+
+:Transfer a rdfs:Class .
+
+:DomesticCompetition a rdfs:Class ;
+    rdfs:subClassOf :Competition .
+
+:InternationalCompetition a rdfs:Class ;
+    rdfs:subClassOf :Competition .
+
+:OtherCompetition a rdfs:Class ;
+    rdfs:subClassOf :Competition .
+
+:name a rdf:Property ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string .
+
+:url a rdf:Property ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:anyURI .
+
+:confederation a rdf:Property ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:string .
+
+:marketValue a rdf:Property ;
+    rdfs:domain rdfs:Resource ;
+    rdfs:range xsd:decimal .
+
+:participatesIn a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range :Competition .
+
+:squadSize a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:integer .
+
+:averageAge a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:decimal .
+
+:foreignersNumber a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:integer .
+
+:foreignersPercentage a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:decimal .
+
+:nationalTeamPlayers a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:integer .
+
+:stadiumName a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:string .
+
+:stadiumSeats a rdf:Property ;
+    rdfs:domain :Club ;
+    rdfs:range xsd:integer .
+
+:hostedIn a rdf:Property ;
+    rdfs:domain :Competition ;
+    rdfs:range :Country .
+
+:competitionProperty a rdf:Property ;
+    rdfs:domain :Competition ;
+    rdfs:range rdfs:Resource .
+
+:type a rdf:Property ;
+    rdfs:subPropertyOf :competitionProperty ;
+    rdfs:domain :Competition ;
+    rdfs:range xsd:string .
+
+:subType a rdf:Property ;
+    rdfs:subPropertyOf :competitionProperty ;
+    rdfs:domain :Competition ;
+    rdfs:range xsd:string .
+
+:locatedIn a rdf:Property;
+    rdfs:domain :Competition ;
+    rdfs:range :Country .
+
+:hostedIn a rdf:Property ;
+    rdfs:subPropertyOf :locatedIn;
+    rdfs:domain :Competition ;
+    rdfs:range :Country .
+
+:domesticLeagueCode a rdf:Property ;
+    rdfs:domain :Competition ;
+    rdfs:range xsd:string .
+
+:isMajorNationalLeague a rdf:Property ;
+    rdfs:domain :Competition ;
+    rdfs:range xsd:boolean .
+
+
+
+:teamInMatch a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range :Club .
+
+:code a rdf:Property ;
+    rdfs:domain :Country ;
+    rdfs:range xsd:string .
+
+:playedIn a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range :Competition .
+
+:homeTeam a rdf:Property ;
+    rdfs:subPropertyOf :teamInMatch;
+    rdfs:domain :Game ;
+    rdfs:range :Club .
+
+:awayTeam a rdf:Property ;
+    rdfs:subPropertyOf :teamInMatch;
+    rdfs:domain :Game ;
+    rdfs:range :Club .
+
+:date a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range xsd:date .
+
+:homeGoals a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range xsd:integer .
+
+:awayGoals a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range xsd:integer .
+
+:stadium a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range xsd:string .
+
+:referee a rdf:Property ;
+    rdfs:domain :Game ;
+    rdfs:range xsd:string .
+
+
+:dateOfBirth a rdf:Property ;
+    rdfs:domain :Player ;
+    rdfs:range xsd:date .
+
+:playsFor a rdf:Property ;
+    rdfs:domain :Player ;
+    rdfs:range :Club .
+
+:position a rdf:Property ;
+    rdfs:domain :Player ;
+    rdfs:range xsd:string .
+
+:playerMarketValue rdfs:subPropertyOf :marketValue ;
+    rdfs:domain :Player ;
+    rdfs:range xsd:decimal .
+
+
+:involvesEntity a rdf:Property ;
+    rdfs:domain :Transfer ;
+    rdfs:range rdfs:Resource .
+
+
+:player a rdf:Property ;
+    rdfs:subPropertyOf :involvesEntity ;
+    rdfs:domain :Transfer ;
+    rdfs:range :Player .
+
+:fromClub a rdf:Property ;
+    rdfs:subPropertyOf :involvesEntity ;
+    rdfs:domain :Transfer ;
+    rdfs:range :Club .
+
+:toClub a rdf:Property ;
+    rdfs:subPropertyOf :involvesEntity ;
+    rdfs:domain :Transfer ;
+    rdfs:range :Club .
+
+:transferDate a rdf:Property ;
+    rdfs:domain :Transfer ;
+    rdfs:range xsd:date .
+
+:season a rdf:Property ;
+    rdfs:domain :Transfer ;
+    rdfs:range xsd:string .
+
+:transferFee a rdf:Property ;
+    rdfs:domain :Transfer ;
+    rdfs:range xsd:decimal .
+
+:playerName a rdf:Property ;
+    rdfs:domain :Transfer ;
+    rdfs:range xsd:string .
+
+:transferMarketValue rdfs:subPropertyOf :marketValue ;
+    rdfs:domain :Transfer ;
+    rdfs:range xsd:decimal .

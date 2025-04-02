@@ -1,0 +1,49 @@
+PREFIX :    <http://example.org/football#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbr: <http://dbpedia.org/resource/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+
+# SELECT ?competition ?class
+# WHERE {
+#     ?competition rdf:type ?class .
+#     FILTER(?class = :Competition)
+# }
+
+# SELECT ?game ?teamName1 ?teamName2
+# WHERE {
+#     ?game :teamInMatch ?team1, ?team2.
+#     ?team1 :name ?teamName1.
+#     ?team2 :name ?teamName2.
+# }
+
+# SELECT ?club ?competition
+# WHERE {
+#     ?club :participatesIn ?competition .
+#     ?competition rdf:type :Competition .
+# }
+
+# SELECT ?clubName ?competitionName ?countryName
+# WHERE {
+#     ?club :participatesIn ?competition .
+#     ?competition :locatedIn ?country .
+#     ?club :name ?clubName .
+#     ?competition :name ?competitionName .
+#     ?country :name ?countryName .
+# }
+
+# SELECT ?playerName ?fromClubName ?toClubName ?transferFee
+# WHERE {
+#     ?transfer :involvesEntity ?player .
+#     ?transfer :involvesEntity ?fromClub .
+#     ?transfer :involvesEntity ?toClub .
+#     ?transfer :transferFee ?transferFee .
+#     ?player :name ?playerName .
+#     ?fromClub :name ?fromClubName .
+#     ?toClub :name ?toClubName .
+#     FILTER (?player != ?fromClub && ?player != ?toClub)
+# }
+
+# LIMIT 50

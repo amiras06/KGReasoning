@@ -1,0 +1,40 @@
+PREFIX : <http://example.org/football#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+  ?competitionUri a ?competitionType ;  
+                  :name ?name ;
+                  :type ?type ;
+                  :subType ?subType ;
+                  :hostedIn ?countryUri ;
+                  :domesticLeagueCode ?domesticLeagueCode ;
+                  :confederation ?confederation ;
+                  :url ?url ;
+                  :isMajorNationalLeague ?isMajorNationalLeague .
+}
+WHERE {
+  BIND(IRI(CONCAT("http://example.org/competition/", STR(?competition_id))) AS ?competitionUri)
+  BIND(IRI(CONCAT("http://example.org/country/", STR(?country_id))) AS ?countryUri)
+  BIND(
+    IF(
+      ?type = "domestic_league", :DomesticCompetition,
+      IF(
+        ?type = "domestic_cup", :DomesticCup,
+        IF(
+          ?type = "international_cup", :InternationalCompetition,
+          :OtherCompetition 
+        )
+      )
+    ) AS ?competitionType
+  )
+
+
+  BIND(?competition_code AS ?competitionCode)
+  BIND(?name AS ?name)
+  BIND(?type AS ?type)
+  BIND(?sub_type AS ?subType)
+  BIND(?domestic_league_code AS ?domesticLeagueCode)
+  BIND(?confederation AS ?confederation)
+  BIND(?url AS ?url)
+  BIND(?is_major_national_league AS ?isMajorNationalLeague)
+}

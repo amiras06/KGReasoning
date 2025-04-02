@@ -1,0 +1,28 @@
+PREFIX : <http://example.org/football#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+CONSTRUCT {
+  ?game rdf:type :Game ;
+        :playedIn ?competition ;
+        :homeTeam ?homeTeam ;
+        :awayTeam ?awayTeam ;
+        :date ?date ;
+        :homeGoals ?homeGoals ;
+        :awayGoals ?awayGoals ;
+        :stadium ?stadium ;
+        :referee ?referee ;
+        :attendance ?attendance .
+}
+WHERE {
+  BIND (URI(CONCAT("http://example.org/game/", ?game_id)) AS ?game)
+  BIND (URI(CONCAT("http://example.org/competition/", ?competition_id)) AS ?competition)
+  BIND (URI(CONCAT("http://example.org/club/", ?home_club_id)) AS ?homeTeam)
+  BIND (URI(CONCAT("http://example.org/club/", ?away_club_id)) AS ?awayTeam)
+  BIND (?date AS ?date)
+  BIND (xsd:integer(?home_club_goals) AS ?homeGoals)
+  BIND (xsd:integer(?away_club_goals) AS ?awayGoals)
+  BIND (?stadium AS ?stadium)
+  BIND (?referee AS ?referee)
+  BIND (xsd:integer(?attendance) AS ?attendance)
+}

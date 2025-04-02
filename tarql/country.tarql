@@ -1,0 +1,15 @@
+PREFIX : <http://example.org/football#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+CONSTRUCT {
+  ?countryUri a :Country ;
+              :name ?countryName ;
+              :code ?countryCode ;
+              :confederation ?confederation .
+}
+WHERE {
+  BIND(IRI(CONCAT("http://example.org/country/", STR(?country_id))) AS ?countryUri)
+  BIND(?country_name AS ?countryName)
+  BIND(?country_id AS ?countryCode)
+  BIND(?confederation AS ?confederation)
+}
